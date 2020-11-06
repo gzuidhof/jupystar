@@ -14,6 +14,7 @@
       "sourceMap": true,
       "declaration": true,
       "declarationDir": "dist/types",
+      "skipLibCheck": true,
       "esModuleInterop": true,
       "outDir": "dist/lib",
       "typeRoots": [
@@ -21,6 +22,6 @@
       ]
     },
     "include": [
-      "src"
+      "src",
     ]
   }

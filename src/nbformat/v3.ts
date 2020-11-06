@@ -226,7 +226,7 @@ export interface Pyout {
    * This interface was referenced by `Pyout`'s JSON-Schema definition
    * via the `patternProperty` "^[a-zA-Z0-9]+/[a-zA-Z0-9\-\+\.]+$".
    */
-  [k: string]: string | string[];
+  [k: string]: string | string[] | undefined;
 }
 /**
  * Data displayed as a result of code cell execution.
@@ -258,7 +258,7 @@ export interface DisplayData {
    * This interface was referenced by `DisplayData`'s JSON-Schema definition
    * via the `patternProperty` "[a-zA-Z0-9]+/[a-zA-Z0-9\-\+\.]+$".
    */
-  [k: string]: string | string[];
+  [k: string]: string | string[] | undefined;
 }
 /**
  * Stream output from a code cell.

@@ -10,6 +10,7 @@ const MATHJAX_TO_LATEX_SUBSTITUTIONS = {
     "\\Tiny": "\\tiny",
     "{align}": "{aligned}",
     "{alignat}": "{alignedat}",
+    "{equation}": "{aligned}", // Not necessarily the correct translation..
     "\\class": "\\htmlClass",
     "\\cssId": "\\htmlId",
     "\\style": "\\htmlStyle", 

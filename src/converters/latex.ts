@@ -61,6 +61,11 @@ function hasLatexDelimiterLine(lines: string[], index: number, where: "before" |
  * a = 1 + 2
  * \end{...}
  * 
+ * $$  G_0 \frac{1}{\sqrt{2}} \left[ \begin{array}{c}  1 \\ 1  \end{array} \right] + 
+ * G_1 \frac{1}{\sqrt{2}} \left[ \begin{array}{c}  1 \\ -1  \end{array} \right] $$
+ * 
+ * 
+ * 
  * This is not valid in Starboard (for good reason), here we do a best effort add $$ around it.
  */
 export function convertLatexBlocksInMarkdown(cell: Cell) {
@@ -89,7 +94,7 @@ export function convertLatexBlocksInMarkdown(cell: Cell) {
         const b = BEGIN_REGEX.exec(l);
         if (b !== null) {
             const delimiterMatch = b[1]; // $ or $$ is already present before it if this is not undefined
-            if (!delimiterMatch) {
+            if (!delimiterMatch && lt.indexOf("$") === -1) {
                 // if (!hasLatexDelimiterLine(lines, i, "before")) { // Not actually necessary it seems with the startsWith and endsWith checks above
                     lines[i] = "$$" + lines[i];
                 // }
@@ -99,7 +104,7 @@ export function convertLatexBlocksInMarkdown(cell: Cell) {
         const e = END_REGEX.exec(l);
         if (e !== null) {
             const delimiterMatch = e[1]; // $ or $$ is already present before it if this is not undefined
-            if (!delimiterMatch) {
+            if (!delimiterMatch && lt.indexOf("$") === -1) {
                 // if (!hasLatexDelimiterLine(lines, i, "after")) {
                     lines[i] = lines[i] + "$$";
                 // }

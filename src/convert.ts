@@ -1,11 +1,11 @@
 import {Cell as JupyterCell, Demo as JupyterNotebook} from "./nbformat/v4";
 import {NotebookContent, Cell as StarboardCell} from 'starboard-notebook/dist/src/types';
-import { translateMagics } from "./converters/magic";
-import { convertLatexBlocksInMarkdown, convertMathjaxToKatex } from "./converters/latex";
+import { reverseTranslateMagics, translateMagics } from "./converters/magic";
+import { convertKatexToMathJax, convertLatexBlocksInMarkdown, convertMathjaxToKatex } from "./converters/latex";
 import { JUPYSTAR_VERSION } from "./version";
 import { getJupystarOptions, JupystarOptions } from "./options";
 
-export function guessCellType(cell: JupyterCell, nb: JupyterNotebook) {
+export function guessStarboardCellType(cell: JupyterCell, nb: JupyterNotebook) {
     if (cell.cell_type === "raw") {
         return "raw";
     } else if (cell.cell_type === "markdown") {
@@ -19,8 +19,8 @@ export function guessCellType(cell: JupyterCell, nb: JupyterNotebook) {
 
 export function convertJupyterCellToStarboardCell(cell: JupyterCell, nb: JupyterNotebook, opts: JupystarOptions): StarboardCell {
     const c: StarboardCell = {
-        cellType: guessCellType(cell, nb),
-        id: "", // It doesn't matter as these are not persisted anyway
+        cellType: guessStarboardCellType(cell, nb),
+        id: cell.metadata.name || "TODO",
         textContent: Array.isArray(cell.source) ? cell.source.join("") : cell.source,
         metadata: {
             properties: {}
@@ -36,6 +36,18 @@ export function convertJupyterCellToStarboardCell(cell: JupyterCell, nb: Jupyter
 
     return c;
 }
+
+export function convertStarboardCellToJupyterCell(cell: StarboardCell, nb: NotebookContent, opts: JupystarOptions): JupyterCell {
+
+    // Poor man's copy.. to be improved
+    const c: StarboardCell = JSON.parse(JSON.stringify(cell))
+
+    reverseTranslateMagics(c);
+    convertKatexToMathJax(c);
+
+    return c;
+}
+
 
 export function convertJupyterToStarboard(jnb: JupyterNotebook, partialOpts: Partial<JupystarOptions>) {
     const fullOpts = getJupystarOptions(partialOpts);

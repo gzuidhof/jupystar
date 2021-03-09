@@ -16,6 +16,11 @@ const MATHJAX_TO_LATEX_SUBSTITUTIONS = {
     "\\style": "\\htmlStyle", 
 }
 
+const LATEX_TO_MATHJAX_SUBSTITUTIONS = Object.entries(MATHJAX_TO_LATEX_SUBSTITUTIONS).reduce((ret, [key, value]) => {
+    ret[value] = key;
+    return ret;
+  }, {} as Record<string, string>);
+
 // One or two $ as the only thing on the line (and some possible whitespace)
 const DELIMITER_LINE_REGEX = /^\s*\${1,2}\s*$/;
 const BEGIN_REGEX = /(\${0,2})\s*\\begin{[a-zA-Z0-9]*}/;
@@ -39,6 +44,26 @@ export function convertMathjaxToKatex(cell: Cell) {
     }
     cell.textContent = lines.join("\n");
 }
+
+export function convertKatexToMathJax(cell: Cell) {
+    if (cell.cellType !== "latex" && cell.cellType !== "markdown") {
+        return;
+    }
+
+    const substitutions = Object.entries(LATEX_TO_MATHJAX_SUBSTITUTIONS);
+    const lines = cell.textContent.split("\n");
+
+    for (let i = 0; i < lines.length; i++) {
+        const l = lines[i];
+        for(const [orig, repl] of substitutions) {
+            if (l.indexOf(orig) !== -1) {
+                lines[i] = l.replace(orig, repl);
+            }
+        }
+    }
+    cell.textContent = lines.join("\n");
+}
+
 
 
 /**

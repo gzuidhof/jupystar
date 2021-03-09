@@ -1,7 +1,7 @@
 import {Cell as V3Cell, Demo as V3Notebook} from "./nbformat/v3";
 import {Cell as V4Cell, Output as V4Output, Demo as V4Notebook} from "./nbformat/v4";
 import {BackwardsCompatibilityError} from "./errors";
-
+import { generateUniqueCellId } from "./random";
 
 /**
  * Parses given string as JSON, and converts it to nbformat v4 if it is currently v3.
@@ -80,6 +80,7 @@ function convertV3CellToV4(c: V3Cell): V4Cell {
         const v4CodeCell: V4Cell = {
             ...c,
             outputs,
+            id: generateUniqueCellId(), 
             execution_count: c.prompt_number === undefined ? null : c.prompt_number,
             metadata: c.metadata || {},
             source: newSource
@@ -91,6 +92,7 @@ function convertV3CellToV4(c: V3Cell): V4Cell {
     } else {
         return {
             ...c,
+            id: generateUniqueCellId(), 
             execution_count: null,
             metadata: c.metadata || {},
             cell_type: newCellType as "raw" | "markdown"

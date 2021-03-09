@@ -37,3 +37,23 @@ export function translateMagics(cell: Cell) {
     }
     cell.textContent = lines.join("\n");
 }
+
+/**
+ * This uncomments out %magic commands
+ * The input cell is mutated.
+ * @param cell 
+ */
+export function reverseTranslateMagics(cell: Cell) {
+    const lines = cell.textContent.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+        const l = lines[i];
+
+        l.replace("# jupystar-ignored-line-magic: ", "");
+        if (l.startsWith("<!-- jupystar-ignored-line-magic: ")) {
+            l.replace("<!-- jupystar-ignored-line-magic: ", "");
+            l.replace("-->", "");
+        }
+        l.replace("// jupystar-ignored-line-magic: ", "");
+    }
+    cell.textContent = lines.join("\n");
+}

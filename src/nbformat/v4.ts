@@ -9,9 +9,9 @@ export type Cell = RawCell | MarkdownCell | CodeCell;
 export type Output = ExecuteResult | DisplayData | Stream | Error;
 
 /**
- * Jupyter Notebook v4.4 JSON schema.
+ * Jupyter Notebook v4.5 JSON schema.
  */
-export interface Demo {
+export interface JupyterNotebook {
   /**
    * Notebook root-level metadata.
    */
@@ -95,6 +95,12 @@ export interface RawCell {
    * String identifying the type of cell.
    */
   cell_type: "raw";
+
+  /**
+   * The cell's ID, added in nbformat 4.5
+   */
+  id: string;
+
   /**
    * Cell-level metadata.
    */
@@ -113,6 +119,7 @@ export interface RawCell {
      * The cell's name. If present, must be a non-empty string. Cell names are expected to be unique across all the cells in a given notebook. This criterion cannot be checked by the json schema and must be established by an additional check.
      */
     name?: string;
+
     /**
      * The cell's tags. Tags must be unique, and must not contain commas.
      */
@@ -149,6 +156,12 @@ export interface MarkdownCell {
    * String identifying the type of cell.
    */
   cell_type: "markdown";
+
+  /**
+     * The cell's ID, added in nbformat 4.5
+     */
+    id: string;
+  
   /**
    * Cell-level metadata.
    */
@@ -199,6 +212,12 @@ export interface CodeCell {
    * String identifying the type of cell.
    */
   cell_type: "code";
+
+  /**
+   * The cell's ID, added in nbformat 4.5
+   */
+  id: string;
+
   /**
    * Cell-level metadata.
    */

@@ -1,5 +1,5 @@
 import {Cell as V3Cell, Demo as V3Notebook} from "./nbformat/v3";
-import {Cell as V4Cell, Output as V4Output, Demo as V4Notebook} from "./nbformat/v4";
+import {Cell as V4Cell, Output as V4Output, JupyterNotebook as V4Notebook} from "./nbformat/v4";
 import {BackwardsCompatibilityError} from "./errors";
 import { generateUniqueCellId } from "./random";
 

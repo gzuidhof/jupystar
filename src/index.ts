@@ -24,5 +24,5 @@ export function convertJupyterStringToStarboardString(content: string, opts: Par
 export function convertStarboardStringToJupyterString(content: string, opts: Partial<JupystarOptions> = {}): string {
     const sbContent = textToNotebookContent(content);
     const ipynb = convertStarboardToJupyter(sbContent, opts);
-    return JSON.stringify(ipynb)
+    return JSON.stringify(ipynb, null, 2)
 }

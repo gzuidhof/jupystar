@@ -1,6 +1,6 @@
 {
     "name": "jupystar",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "Converter from Jupyter notebook (ipynb) to Starboard notebook",
     "keywords": [
         "notebook",
